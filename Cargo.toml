@@ -1,0 +1,14 @@
+[package]
+name = "get_storage_proof"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+starknet = "0.17.0"
+starknet-types-core = "0.2.1"
+starknet-core= "0.16.0"
+starknet_api = { git = "https://github.com/karnotxyz/sequencer", rev = "e04617e0581d5ec93a035ec0e15419b4c201b629", features = [
+  "testing",
+] }
+tokio = { version = "1.37.0", features = ["full"] }
+
