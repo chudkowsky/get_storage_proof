@@ -4,6 +4,15 @@ use starknet::providers::{JsonRpcClient, Provider, jsonrpc::HttpTransport};
 use starknet_core::types::{BlockId, ConfirmedBlockId, ContractStorageKeys, Felt};
 use std::vec;
 
+pub async fn check_chain_id(
+    client: &JsonRpcClient<HttpTransport>,
+    forked_client: &JsonRpcClient<HttpTransport>,
+) {
+    let chain_id = client.chain_id().await.unwrap();
+    let forked_chain_id = forked_client.chain_id().await.unwrap();
+    assert_eq!(chain_id, forked_chain_id);
+}
+
 pub async fn check_get_block_with_txs(
     client: &JsonRpcClient<HttpTransport>,
     forked_client: &JsonRpcClient<HttpTransport>,
@@ -593,5 +602,29 @@ mod tests {
     async fn test_check_get_state_update() {
         let (orginal_client, forked_client) = get_clients();
         super::check_get_state_update(&orginal_client, &forked_client).await;
+    }
+
+      #[tokio::test]
+    async fn test_check_chain_id() {
+        let (orginal_client, forked_client) = get_clients();
+        super::check_chain_id(&orginal_client, &forked_client).await;
+    }
+
+    #[tokio::test]
+    async fn test_check_get_block_with_txs() {
+        let (orginal_client, forked_client) = get_clients();
+        super::check_get_block_with_txs(&orginal_client, &forked_client).await;
+    }
+
+    #[tokio::test]
+    async fn test_check_get_block_with_tx_hashes() {
+        let (orginal_client, forked_client) = get_clients();
+        super::check_get_block_with_tx_hashes(&orginal_client, &forked_client).await;
+    }
+
+    #[tokio::test]
+    async fn test_check_trace_block_transactions() {
+        let (orginal_client, forked_client) = get_clients();
+        super::check_trace_block_transactions(&orginal_client, &forked_client).await;
     }
 }
